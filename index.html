@@ -9,15 +9,15 @@
     body {
       margin: 0;
       padding: 0;
-      font-family: Arial, Helvetica, sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: linear-gradient(-45deg, #ffebee, #fff0f5, #fce4ec, #f8bbd0);
+      background-size: 400% 400%;
+      animation: gradient 25s ease infinite;
       min-height: 100vh;
       color: #333;
       overflow-x: hidden;
       position: relative;
       text-align: center;
-      background: linear-gradient(-45deg, #ff9a9e, #fad0c4, #fec89a, #ffd1dc);
-      background-size: 400% 400%;
-      animation: gradient 18s ease infinite;
     }
 
     @keyframes gradient {
@@ -26,46 +26,79 @@
       100% { background-position: 0% 50%; }
     }
 
-    .content {
+    .container {
       position: relative;
       z-index: 10;
-      padding: 40px 20px;
       min-height: 100vh;
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
+      padding: 30px 20px;
+      transition: opacity 1.2s ease;
+    }
+
+    .hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .page2 {
+      position: absolute;
+      inset: 0;
+      background: rgba(255, 245, 247, 0.98);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      opacity: 0;
+      transition: opacity 1.5s ease;
+      z-index: 20;
+      padding: 20px;
+    }
+
+    .page2.visible {
+      opacity: 1;
     }
 
     h1 {
       color: #c62828;
-      font-size: 2.6em;
-      margin: 0.3em 0;
-      text-shadow: 2px 2px 10px rgba(0,0,0,0.2);
+      font-size: 2.4em;
+      margin: 0.4em 0 0.8em;
       line-height: 1.2;
+      text-shadow: 1px 1px 6px rgba(0,0,0,0.15);
     }
 
     .foto {
-      max-width: 280px;
+      max-width: 90%;
+      max-height: 55vh;
       border-radius: 16px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-      margin: 25px auto;
-      display: block;
+      box-shadow: 0 12px 35px rgba(0,0,0,0.25);
+      margin: 20px auto 35px;
+      object-fit: cover;
+    }
+
+    .final-message {
+      font-size: 2.1em;
+      font-weight: bold;
+      color: #b71c1c;
+      line-height: 1.3;
+      max-width: 90%;
     }
 
     .buttons {
-      margin: 50px 0 30px;
+      margin: 40px 0 30px;
     }
 
     button {
-      padding: 16px 50px;
-      font-size: 1.5em;
-      margin: 20px;
+      padding: 16px 48px;
+      font-size: 1.4em;
+      margin: 15px;
       border: none;
       border-radius: 50px;
       cursor: pointer;
-      transition: all 0.3s;
-      box-shadow: 0 6px 20px rgba(0,0,0,0.25);
+      box-shadow: 0 5px 18px rgba(0,0,0,0.2);
+      transition: all 0.25s;
     }
 
     #yesBtn {
@@ -74,211 +107,78 @@
     }
 
     #yesBtn:hover {
-      background: #b71c1c;
-      transform: scale(1.1);
+      background: #c62828;
+      transform: scale(1.07);
     }
 
     #noBtn {
-      background: #616161;
+      background: #757575;
       color: white;
       position: relative;
-      transition: all 0.15s;
     }
 
-    #message {
-      font-size: 2.1em;
-      margin-top: 40px;
-      color: #b71c1c;
-      font-weight: bold;
-      min-height: 1.6em;
-      opacity: 0;
-      transform: scale(0.8);
-      transition: all 0.8s ease;
-    }
-
-    #message.show {
-      opacity: 1;
-      transform: scale(1);
-    }
-
-    .floating-heart {
+    /* Corazones cayendo - muy suaves y lentos */
+    .heart {
       position: absolute;
       font-size: 1.8em;
       color: #e53935;
+      opacity: 0.35;
       pointer-events: none;
-      animation: floatHeart 6s ease-in-out infinite;
-      opacity: 0.7;
-      z-index: 8;
-    }
-
-    @keyframes floatHeart {
-      0%   { transform: translateY(0) rotate(0deg); opacity: 0.7; }
-      50%  { transform: translateY(-60px) rotate(20deg); opacity: 1; }
-      100% { transform: translateY(0) rotate(0deg); opacity: 0.7; }
-    }
-
-    /* Corazones cayendo de fondo */
-    .heart {
-      position: absolute;
-      color: #e53935;
-      font-size: 1.6em;
-      pointer-events: none;
+      z-index: 1;
       animation: fall linear infinite;
-      z-index: 5;
-      text-shadow: 0 0 12px rgba(229,57,53,0.6);
+      will-change: transform, opacity;
     }
 
     @keyframes fall {
-      0% { transform: translateY(-15vh) rotate(0deg); opacity: 1; }
+      0%   { transform: translateY(-15vh) rotate(0deg); opacity: 0.35; }
       100% { transform: translateY(115vh) rotate(720deg); opacity: 0; }
-    }
-
-    /* Botón de música */
-    #musicToggle {
-      position: fixed;
-      top: 15px;
-      right: 15px;
-      z-index: 100;
-      background: rgba(255,255,255,0.25);
-      border: none;
-      border-radius: 50%;
-      width: 48px;
-      height: 48px;
-      font-size: 1.4em;
-      cursor: pointer;
-      backdrop-filter: blur(4px);
-      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
     }
   </style>
 </head>
 <body>
 
-  <!-- Contenedor de corazones cayendo -->
   <div id="hearts-container"></div>
 
-  <!-- Contenido principal -->
-  <div class="content">
-
-    <!-- Cambia esta URL por tu foto (subida al repositorio o link directo) -->
-    <img src="https://images.unsplash.com/photo-1519741497674-281482ba4a96?w=600" class="foto" alt="Nosotros">
-
+  <!-- Página 1 -->
+  <div id="page1" class="container">
     <h1>Mi Niña Hermosa<br>¿Quieres ser mi San Valentín? 💕</h1>
 
+    <!-- Cambia esta URL por tu foto real -->
+    <img src="https://images.unsplash.com/photo-1519741497674-281482ba4a96?w=600" class="foto" alt="Nosotros">
+
     <div class="buttons">
-      <button id="yesBtn">SÍ 😍❣️</button>
+      <button id="yesBtn">SÍ 😍❤️</button>
       <button id="noBtn">No... 😔</button>
     </div>
-
-    <div id="message"></div>
-
   </div>
 
-  <!-- Botón para pausar/reproducir música -->
-  <button id="musicToggle">🔊</button>
+  <!-- Página 2 (se muestra al presionar SÍ) -->
+  <div id="page2" class="page2">
+    <!-- Cambia esta URL por TU foto especial -->
+    <img src="https://images.unsplash.com/photo-1519741497674-281482ba4a96?w=600" class="foto" alt="Karina y yo">
 
-  <!-- Música de fondo -->
-  <audio id="bgMusic" loop>
-    <source src="https://cdn.pixabay.com/audio/2023/08/07/audio_3b5d7d8f3e.mp3" type="audio/mpeg">
-    Tu navegador no soporta audio.
-  </audio>
-
-  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+    <div class="final-message">
+      Eres lo mejor que me ha pasado Karina<br>¡FELIZ SAN VALENTÍN!
+    </div>
+  </div>
 
   <script>
-    // Música
-    const music = document.getElementById('bgMusic');
-    const musicToggle = document.getElementById('musicToggle');
-    music.volume = 0.25;
-
-    // Intentar reproducir al cargar (puede bloquearse por políticas del navegador)
-    music.play().catch(() => {
-      console.log("Reproducción automática bloqueada, el usuario debe interactuar primero");
-    });
-
-    musicToggle.addEventListener('click', () => {
-      if (music.paused) {
-        music.play();
-        musicToggle.textContent = '🔊';
-      } else {
-        music.pause();
-        musicToggle.textContent = '🔇';
-      }
-    });
-
-    // Mensaje y confeti
     const yesBtn = document.getElementById('yesBtn');
     const noBtn = document.getElementById('noBtn');
-    const message = document.getElementById('message');
+    const page1 = document.getElementById('page1');
+    const page2 = document.getElementById('page2');
 
+    // Al presionar SÍ → cambia de página
     yesBtn.addEventListener('click', () => {
-      message.textContent = "Eres lo mejor que me ha pasado Karina, ¡FELIZ SAN VALENTÍN!";
-      message.classList.add('show');
-
-      noBtn.style.display = 'none';
-
-      // Confeti
-      confetti({
-        particleCount: 120,
-        spread: 80,
-        origin: { y: 0.6 },
-        colors: ['#ff0000', '#ff4d4d', '#ff9999', '#ffb3b3', '#ffe6e6']
-      });
-
-      // Corazones flotando alrededor del mensaje
-      for (let i = 0; i < 8; i++) {
-        setTimeout(() => {
-          const heart = document.createElement('div');
-          heart.classList.add('floating-heart');
-          heart.innerHTML = '❤️';
-          heart.style.left = (Math.random() * 80 + 10) + '%';
-          heart.style.top = (Math.random() * 40 + 40) + '%';
-          heart.style.animationDelay = (i * 0.4) + 's';
-          document.body.appendChild(heart);
-          setTimeout(() => heart.remove(), 7000);
-        }, i * 300);
-      }
+      page1.classList.add('hidden');
+      setTimeout(() => {
+        page2.classList.add('visible');
+      }, 800);
     });
 
     // Botón NO muy escurridizo
     function moveNoButton() {
-      const x = Math.random() * (window.innerWidth - 220);
-      const y = Math.random() * (window.innerHeight - 220);
-      noBtn.style.position = 'absolute';
-      noBtn.style.left = x + 'px';
-      noBtn.style.top = y + 'px';
-    }
-
-    noBtn.addEventListener('mouseover', moveNoButton);
-    noBtn.addEventListener('mouseenter', moveNoButton);
-    noBtn.addEventListener('mousemove', moveNoButton);
-    noBtn.addEventListener('touchstart', (e) => {
-      e.preventDefault();
-      moveNoButton();
-    });
-    noBtn.addEventListener('touchmove', (e) => {
-      e.preventDefault();
-      moveNoButton();
-    });
-
-    // Lluvia de corazones
-    function createHeart() {
-      const heart = document.createElement('div');
-      heart.classList.add('heart');
-      heart.innerHTML = ['❤️','💖','💕','💗','💓'][Math.floor(Math.random()*5)];
-
-      const size = Math.random() * 1.8 + 0.9;
-      heart.style.fontSize = size + 'em';
-      heart.style.left = Math.random() * 100 + 'vw';
-      heart.style.animationDuration = (Math.random() * 9 + 7) + 's';
-      heart.style.animationDelay = Math.random() * 6 + 's';
-
-      document.getElementById('hearts-container').appendChild(heart);
-
-      setTimeout(() => heart.remove(), 16000);
-    }
-
-    setInterval(createHeart, 350);
-  </script>
-
-</body>
-</html>
+      const maxX = window.innerWidth - 220;
+      const maxY = window.innerHeight - 180;
+      const x = Math.random() * maxX;
+      const
